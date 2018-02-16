@@ -1,28 +1,24 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+ 
+  <D3Circular msg="Welcome to Your Vue.js App"/>
+
+
+  
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import D3Circular from './components/D3Circular.vue';
+
+
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    D3Circular
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
