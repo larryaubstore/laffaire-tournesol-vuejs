@@ -1,5 +1,10 @@
 <template>
-        <svg width="960" height="960"></svg>
+
+<div id="root">
+        <svg id="svgContainer" width="960" height="960"></svg>
+
+        <div class="titre">Fernando Redondo</div>
+</div>
 
 </template>
 
@@ -8,33 +13,72 @@
 
     import * as d3 from "d3";
 
+    
+    var timers = null;
+
+
+    function tick() {
+
+        if (timers) clearTimeout(timers);
+
+        timers = setTimeout( () => {
+
+            document.getElementById("svgContainer").innerHTML = "";
+
+            charge();
+        }, 1000);
+
+    }
+
+    function charge() {
+
+
+        var windowWidth = window.innerWidth;
+        var windowHeight = window.innerHeight;
+
+
+        
+
+
+        var svg = d3.select("svg");
+        svg.attr("width", parseInt(windowWidth / 2));
+        svg.attr("height", windowHeight);
+
+        
+
+        
+        var margin = 20,
+            diameter = parseInt(windowWidth / 2),
+            
+
+            scaleG = svg.append("g").attr("transform", "scale(1)"),
 
 
 
-    export default {
-        name: 'D3Circular',
-        props: {
-            msg: String
-        },
-        mounted: function () {
+
+            g = scaleG.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"),
+            //g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"),
+
+            animateTransform = scaleG.append("animateTransform")
+                .attr("attributeName", "transform")
+                .attr("type", "scale")
+                .attr("from", "0 0")
+                .attr("to", "1 1")
+                .attr("begin", "0s")
+                .attr("dur", "1s")
+                .attr("repeatCount", "0");
 
 
-            var svg = d3.select("svg"),
-                margin = 20,
-                diameter = +svg.attr("width"),
-                //diameter = 960,
-                g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+        var color = d3.scaleLinear()
+            .domain([-1, 5])
+            .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+            .interpolate(d3.interpolateHcl);
 
-            var color = d3.scaleLinear()
-                .domain([-1, 5])
-                .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
-                .interpolate(d3.interpolateHcl);
+        var pack = d3.pack()
+            .size([diameter - margin, diameter - margin])
+            .padding(2);
 
-            var pack = d3.pack()
-                .size([diameter - margin, diameter - margin])
-                .padding(2);
-
-            d3.json("http://127.0.0.1:4444/output_giraph/output", function(error, root) {
+        d3.json("http://127.0.0.1:4444/output_giraph/output", function(error, root) {
             if (error) throw error;
 
             root = d3.hierarchy(root)
@@ -102,7 +146,24 @@
                 node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
                 circle.attr("r", function(d) { return d.r * k; });
             }
-            });
+        });
+        
+    }
+
+
+    export default {
+        name: 'D3Circular',
+        props: {
+            msg: String
+        },
+        mounted: function () {
+
+            charge();
+
+            
+
+            window.removeEventListener("resize", tick);
+            window.addEventListener("resize", tick);
 
         }
     }
@@ -123,28 +184,37 @@
 <style>
 
     .node {
-    cursor: pointer;
+        cursor: pointer;
     }
 
     .node:hover {
-    stroke: #000;
-    stroke-width: 1.5px;
+        stroke: #000;
+        stroke-width: 1.5px;
     }
 
     .node--leaf {
-    fill: white;
+        fill: white;
     }
 
     .label {
-    font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-anchor: middle;
-    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+        font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-anchor: middle;
+        text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
     }
 
     .label,
     .node--root,
     .node--leaf {
-    pointer-events: none;
+        pointer-events: none;
+    }
+
+    .titre {
+        float: right;
+        font: 30px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+        font-weight: bold;
+        margin-right:20px;
+        margin-top: 10px;
     }
 
 
