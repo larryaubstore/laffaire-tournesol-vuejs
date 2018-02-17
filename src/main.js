@@ -1,19 +1,61 @@
-import Vue from 'vue'
-import App from './App.vue'
-//import D3Circular from './components/D3Circular.vue';
+import Vue            from 'vue'
+import App            from './App.vue'
+
+import * as request   from 'browser-request';
+import * as debug     from 'debug';
+import * as Promise   from 'bluebird';
+
+
+const log = debug('main');
+
+Vue.config.productionTip = false;
+
+const get = Promise.promisify(request.get);
+
+
+get('/config').then( (data) => {
+  
+  return render(JSON.parse(data.body));
+}).catch( (err) => {
+  log('err: ' + err);
+});
+  
+
+function render(data) {
+  log('render');
+  return new Promise( (resolve, reject) => {
+    var vm = new Vue({
+      render: function(createElement) {
+   
+        log('vm render');
+    
+    
+        if (window.location.pathname !== '/') {
+    
+        } else {
+          
+        }
 
 
 
-Vue.config.productionTip = false
+        let urlJson = data.API_HOST + '/data?id=dyatlov';
 
-new Vue({
-  render: h => h(App)
-}).$mount('#app')
+        log('urlJson => ' + urlJson );
+    
+        return createElement(App, {
+          props: { id: 'dyatlov', titre: 'Fernando Redondo', urlJson: urlJson}
+        }); 
+      },
+      
+    }).$mount('#app');
 
-/*
-new Vue({
-  render: h => h(D3Circular)
-}).$mount('#root');
-*/
+    resolve(vm);
+  })
+}
+
+
+
+
+
 
 

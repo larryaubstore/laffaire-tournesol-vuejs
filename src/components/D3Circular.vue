@@ -3,7 +3,7 @@
 <div id="root">
         <svg id="svgContainer" width="960" height="960"></svg>
 
-        <div class="titre">Fernando Redondo</div>
+        <div class="titre">{{ titre }}</div>
 </div>
 
 </template>
@@ -21,16 +21,16 @@
 
         if (timers) clearTimeout(timers);
 
+        var urlJson = this.urlJson;
+
         timers = setTimeout( () => {
-
             document.getElementById("svgContainer").innerHTML = "";
-
-            charge();
+            charge(urlJson);
         }, 1000);
 
     }
 
-    function charge() {
+    function charge(urlJson) {
 
 
         var windowWidth = window.innerWidth;
@@ -57,16 +57,15 @@
 
 
             g = scaleG.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"),
-            //g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"),
-
             animateTransform = scaleG.append("animateTransform")
                 .attr("attributeName", "transform")
-                .attr("type", "scale")
-                .attr("from", "0 0")
-                .attr("to", "1 1")
+                .attr("type", "translate")
+                .attr("from", -1000 + " 0")
+                .attr("to", "0 0")
                 .attr("begin", "0s")
                 .attr("dur", "1s")
                 .attr("repeatCount", "0");
+
 
 
         var color = d3.scaleLinear()
@@ -78,7 +77,7 @@
             .size([diameter - margin, diameter - margin])
             .padding(2);
 
-        d3.json("http://127.0.0.1:4444/output_giraph/output", function(error, root) {
+        d3.json(urlJson, function(error, root) {
             if (error) throw error;
 
             root = d3.hierarchy(root)
@@ -154,16 +153,19 @@
     export default {
         name: 'D3Circular',
         props: {
-            msg: String
+            urlJson: String,
+            titre: String
         },
         mounted: function () {
 
-            charge();
+
+            
+            charge(this.urlJson);
 
             
 
-            window.removeEventListener("resize", tick);
-            window.addEventListener("resize", tick);
+            window.removeEventListener("resize", tick.bind(this));
+            window.addEventListener("resize", tick.bind(this));
 
         }
     }

@@ -1,6 +1,8 @@
 <template>
  
-  <D3Circular msg="Welcome to Your Vue.js App"/>
+  <div id="root2">
+    <D3Circular msg="Welcome to Your Vue.js App" :titre= "titre" :urlJson = "urlJson" :id="id" />
+  </div>
 
 
   
@@ -15,7 +17,14 @@ export default {
   name: 'app',
   components: {
     D3Circular
+  },
+  props: {
+      titre: String,
+      urlJson: String,
+      id: String
+
   }
+
 }
 </script>
 
