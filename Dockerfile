@@ -11,14 +11,11 @@ RUN npm install
 # Bundle app source
 COPY . /usr/src/app
 
-COPY start /
-RUN ["chmod", "+x", "/start"]
-
 
 WORKDIR /
 
 
-EXPOSE 3000 
+EXPOSE 9988 
 
 
 

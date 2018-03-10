@@ -14,7 +14,6 @@ const get = Promise.promisify(request.get);
 
 
 get('/config').then( (data) => {
-  
   return render(JSON.parse(data.body));
 }).catch( (err) => {
   log('err: ' + err);
@@ -36,10 +35,7 @@ function render(data) {
           
         }
 
-
-
         let urlJson = data.API_HOST + '/data?id=dyatlov';
-
         log('urlJson => ' + urlJson );
     
         return createElement(App, {
