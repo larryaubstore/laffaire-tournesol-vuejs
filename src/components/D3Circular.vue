@@ -12,8 +12,10 @@
 <script>
 
     import * as d3 from "d3";
+    import * as debug from 'debug';
 
     
+    const log = debug('d3Circular');
     var timers = null;
 
 
@@ -99,20 +101,28 @@
                 .data(nodes)
                 .enter().append("text")
                 .attr("class", "label")
-                .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-                .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+                .style("fill-opacity", function(d) { return d.parent === root  ? 1 : 0; })
+                .style("display", function(d) { return d.parent === root  ? "inline" : "none"; })
                 .text(function(d) { 
 
 
 
+                    if (d.data.title) {
+                        let displayName = d.data.title;
+                        displayName = displayName.replace('%C3%B3', 'ó');
+                        displayName = displayName.replace('%C3%AD', 'í');
+                        displayName = displayName.replace('%C3%A9', 'é');
+                        displayName = displayName.replace('%C3%A1', 'á');
+                        return displayName;
+                    } else {
+                        let displayName = d.data.name.replace('https://en.wikipedia.org/wiki/', ''); 
 
-                    let displayName = d.data.name.replace('https://en.wikipedia.org/wiki/', ''); 
-
-                    displayName = displayName.replace('%C3%B3', 'ó');
-                    displayName = displayName.replace('%C3%AD', 'í');
-                    displayName = displayName.replace('%C3%A9', 'é');
-                    displayName = displayName.replace('%C3%A1', 'á');
-                    return displayName; 
+                        displayName = displayName.replace('%C3%B3', 'ó');
+                        displayName = displayName.replace('%C3%AD', 'í');
+                        displayName = displayName.replace('%C3%A9', 'é');
+                        displayName = displayName.replace('%C3%A1', 'á');
+                        return displayName; 
+                    }
                 });
 
             var node = g.selectAll("circle,text");
@@ -134,10 +144,10 @@
                     });
 
                 transition.selectAll("text")
-                .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-                    .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
-                    .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                    .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                .filter(function(d) { return d.parent === focus || this.style.display  || true === "inline"; })
+                    .style("fill-opacity", function(d) { return d.parent === focus || true ? 1 : 0; })
+                    .on("start", function(d) { if (d.parent === focus || true) this.style.display = "inline"; })
+                    .on("end", function(d) { if (d.parent !== focus && false) this.style.display = "none"; });
             }
 
             function zoomTo(v) {
@@ -204,11 +214,21 @@
         text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
     }
 
+
+    /*
     .label,
     .node--root,
     .node--leaf {
         pointer-events: none;
     }
+    */
+
+    .label,
+    .node--root {
+        pointer-events: none;
+    }
+
+
 
     .titre {
         float: right;
