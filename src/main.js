@@ -35,11 +35,11 @@ function render(data) {
           
         }
 
-        let urlJson = data.API_HOST + '/data?id=dyatlov';
+        let urlJson = data.API_HOST + '/data?id=gerardway';
         log('urlJson => ' + urlJson );
     
         return createElement(App, {
-          props: { id: 'dyatlov', titre: 'Fernando Redondo', urlJson: urlJson}
+          props: { id: 'gerardway', titre: 'Gerard Way', urlJson: urlJson}
         }); 
       },
       

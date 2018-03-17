@@ -1,7 +1,9 @@
 <template>
  
   <div id="root2">
-    <D3Circular msg="Welcome to Your Vue.js App" :titre= "titre" :urlJson = "urlJson" :id="id" />
+    <D3CirclePacking :titre= "titre" :urlJson = "urlJson" :id="id" />
+
+    <D3BubbleChart :size="33" />
   </div>
 
 
@@ -9,14 +11,16 @@
 </template>
 
 <script>
-import D3Circular from './components/D3Circular.vue';
+import D3CirclePacking from './components/D3CirclePacking.vue';
+import D3BubbleChart  from './components/D3BubbleChart.vue';
 
 
 
 export default {
   name: 'app',
   components: {
-    D3Circular
+    D3CirclePacking,
+    D3BubbleChart
   },
   props: {
       titre: String,
