@@ -48,12 +48,49 @@
     }
 
 
+    function group(root) {
+        if (root.children && root.children.length > 10) {
+
+            let newChildren = [];
+            let group = null;
+            for (var i = 0; i < root.children.length; i+=4) {
+                group = { name: "" + (i / 4 + 1), children: root.children.slice(i, i + 4) };
+                newChildren.push(group);
+            }
+
+            root.children = newChildren;
+            return root;
+
+
+        } else {
+            return root;
+        }
+    }
+
+
     function reduceChildren(root) {
         log('reduceChildren');
-        if (root['A']) {
 
+        if (root.children && root.children.length > 0) {
+
+            let newChildren = [];
+            root.children.forEach( (item) => {
+
+                item = group(item);
+                newChildren.push(item);
+            });
+            
+            //children = group(children);
+            //return root;
+
+            root.children = newChildren;
+            return root;
+
+
+        } else {
+            return root;
         }
-        return root;
+
     }
 
     function charge(urlJson) {
@@ -270,7 +307,12 @@
         clear: both;
     }
 
-    
+    .d3CirclePacking #svgContainer {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: 10;
+    }
 
 
     
