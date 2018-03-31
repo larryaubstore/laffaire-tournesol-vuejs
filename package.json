@@ -2,6 +2,10 @@
   "name": "laffaire-tournesol",
   "version": "0.1.0",
   "private": true,
+  "domains": [
+    "www.bachibouzouk.ca",
+    "bachibouzouk.ca"
+   ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
