@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "npm run build && PORT=9988 API_HOST=http://localhost:1234 DEBUG=* node app.js"
+    "local": "npm run build && PORT=9988 API_HOST=http://localhost:1234 DEBUG=* node app.js",
+    "start": "npm run build && API_HOST=http://localhost:1234 DEBUG=* node app.js"
   },
   "dependencies": {
     "bluebird": "^3.5.1",
