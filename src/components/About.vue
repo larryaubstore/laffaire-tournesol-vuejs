@@ -421,7 +421,7 @@
         background: url('../assets/apropos.jpg') no-repeat top center fixed;
         margin: 0;
         padding: 0;
-        overflow: scroll;
+        overflow: hidden;
         width: 640px;
         background-size: contain;
     }
@@ -588,7 +588,7 @@
         background: url('../assets/apropos.jpg') no-repeat top center fixed;
         margin: 0;
         padding: 0;
-        overflow: scroll;
+        overflow: hidden;
         width: 480px;
         background-size: contain;
     }
@@ -754,7 +754,7 @@
         background: url('../assets/apropos.jpg') no-repeat top center fixed;
         margin: 0;
         padding: 0;
-        overflow: scroll;
+        overflow: hidden;
         width: 320px;
         background-size: cover;
     }
