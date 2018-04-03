@@ -1,17 +1,50 @@
-import Vue            from 'vue'
-import App            from './App.vue'
+import Vue              from 'vue'
 
-import * as request   from 'browser-request';
-import * as debug     from 'debug';
-import * as Promise   from 'bluebird';
+
+import About            from './components/About.vue';
+import D3CirclePacking  from './components/D3CirclePacking.vue';
+import D3BubbleChart    from './components/D3BubbleChart.vue';
+import D3MergeCircle    from './components/D3MergeCircle.vue';
+const NotFound = { template: '<p>Page non trouvé</p>' };
+
+import * as request     from 'browser-request';
+import * as debug       from 'debug';
+import * as Promise     from 'bluebird';
+
+
+
 
 
 const log = debug('main');
-
+log('main');
 Vue.config.productionTip = false;
 
-const get = Promise.promisify(request.get);
 
+const routes = {
+  '/': About,
+  '/sujet/gerardway': D3MergeCircle
+};
+
+new Vue({
+  el: "#app",
+  data: {
+    currentRoute: window.location.pathname
+  },
+  computed: {
+    ViewComponent () {
+
+      log('current route ==> ' + this.currentRoute);
+
+      return routes[this.currentRoute] || NotFound
+    }
+  },
+  render (h) { return h(this.ViewComponent) }  
+});
+
+
+/*
+
+const get = Promise.promisify(request.get);
 
 get('/config').then( (data) => {
   return render(JSON.parse(data.body));
@@ -49,7 +82,7 @@ function render(data) {
   })
 }
 
-
+*/
 
 
 

@@ -1,12 +1,16 @@
 var express             = require('express');
 var debug               = require('debug')('app');
 var nconf               = require('nconf');
+var path                = require('path');
 
 require('./src/nconf');
 var app = express();
 
 const port = process.env['PORT'] || 3000;
 
+app.get('/sujet/*', (req, res, next) => {
+    res.sendFile(path.join(__dirname + '/dist/index.html'));
+});
 
 app.get('/config', (req, res, next) => {
     debug('config');

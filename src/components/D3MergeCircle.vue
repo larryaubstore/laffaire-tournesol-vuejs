@@ -1,15 +1,12 @@
 <template>
  
- <!--
-  <div id="root2">
+  <div id="d3MergeCircle">
     <D3CirclePacking :titre= "titre" :urlJson = "urlJson" :id="id" />
 
     <D3BubbleChart :size="33" />
   </div>
 
-    -->
 
-    <About /> 
 
 
 
@@ -17,26 +14,22 @@
 </template>
 
 <script>
-import D3CirclePacking  from './components/D3CirclePacking.vue';
-import D3BubbleChart    from './components/D3BubbleChart.vue';
-import About            from './components/About.vue';
 
+import D3CirclePacking  from './D3CirclePacking.vue';
+import D3BubbleChart    from './D3BubbleChart.vue';
 
 
 export default {
-  name: 'app',
+  name: 'd3MergeCircle',
   components: {
     D3CirclePacking,
-    D3BubbleChart,
-    About
+    D3BubbleChart
   },
   props: {
       titre: String,
       urlJson: String,
       id: String
-
   }
-
 }
 </script>
 
