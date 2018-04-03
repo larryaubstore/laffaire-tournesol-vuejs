@@ -213,7 +213,49 @@
     }
 
 
+    function resize(event) {
 
+
+
+        let windowWidth = window.innerWidth ;
+
+        if (window.innerWidth <= 640) {
+            document.body.style.overflow = "scroll";
+            // Problème bizarre sur Pixel 2
+            document.body.style.backgroundSize = windowWidth + 100 + 'px';    
+        } else {
+            document.body.style.overflow = "scroll";
+        }
+
+
+        if (windowWidth > 960) {
+            windowWidth = 960;
+        }
+
+        getTextElement().style.width = windowWidth + 'px' ;
+        getMiddleSpacerElement().style.width = windowWidth + 'px';
+        document.getElementsByClassName('subject')[0].style.width = parseInt(windowWidth * 0.65) + 'px';
+
+        document.getElementsByClassName('subtitle')[0].style.width = windowWidth + 'px';
+        document.getElementsByClassName('subtitle')[1].style.width = parseInt(windowWidth * 0.65) + 'px';
+
+        document.getElementsByClassName('sublinks')[0].style.width = parseInt(windowWidth * 0.85) + 'px';
+        document.getElementsByClassName('synopsis')[0].style.width = parseInt(windowWidth * 0.70) + 'px';
+
+
+        document.getElementsByClassName('title')[0].style.width = windowWidth + 'px';
+
+        document.getElementsByClassName('hadoop')[0].style.width = windowWidth + 'px';
+
+        document.getElementsByClassName('links')[0].style.width = windowWidth + 'px';
+
+        document.getElementsByClassName('image')[0].style.width = parseInt(windowWidth * 0.30) + 'px';
+
+
+        getAbrahamElement().style.width = windowWidth + 'px';
+
+        
+    }
 
     export default {
         name: 'About',
@@ -228,6 +270,15 @@
             textElement.addEventListener('click', () => {
                 toggle(getMiddleSpacerElement(), 'fixed');
             });
+
+            window.addEventListener('resize', resize);
+
+            resize();
+
+
+
+
+            
         }
     }
 
@@ -242,10 +293,11 @@
 
 @media (min-width: 641px)  {
     body {
-        background: url('../assets/apropos.png') no-repeat top center fixed;
+        background: url('../assets/apropos.png') no-repeat fixed;
         margin: 0;
         padding: 0;
         overflow: scroll;
+        background-position: top center;
     }
 
 
@@ -353,7 +405,7 @@
         width: 330px;
         height: 414px;
         float: left;  
-        background-size: contain;
+        background-size: cover;
     }
 
     .about .abraham .subject {
@@ -418,12 +470,12 @@
 
 @media (min-width: 481px) and (max-width: 640px) {
     body {
-        background: url('../assets/apropos.jpg') no-repeat top center fixed;
+        background: url('../assets/apropos.jpg') no-repeat fixed;
         margin: 0;
         padding: 0;
         overflow: hidden;
         width: 640px;
-        background-size: contain;
+        background-position: top center;
     }
 
     .about .first_blank {
@@ -480,6 +532,7 @@
         padding-top: 20px;
         padding-bottom: 20px;
         font-size: 20px;
+        margin: 0 auto;
     }
 
 
@@ -585,12 +638,12 @@
 
 @media (min-width: 321px) and (max-width: 480px) {
     body {
-        background: url('../assets/apropos.jpg') no-repeat top center fixed;
+        background: url('../assets/apropos.jpg') no-repeat fixed;
         margin: 0;
         padding: 0;
         overflow: hidden;
         width: 480px;
-        background-size: contain;
+        background-position: top center;
     }
 
     .about .first_blank {
@@ -687,7 +740,7 @@
         width: 165px;
         height: 207px;
         float: left;  
-        background-size: contain;
+        background-size: cover;
     }
 
     .about .abraham .subject {
@@ -735,6 +788,7 @@
         text-align: center;
         float: left;
         clear:both;
+        padding-top: 30px;
     }
 
     .about .sublinks {
@@ -751,12 +805,12 @@
 
 @media (max-width: 320px) {
     body {
-        background: url('../assets/apropos.jpg') no-repeat top center fixed;
+        background: url('../assets/apropos.jpg') no-repeat fixed;
         margin: 0;
         padding: 0;
         overflow: hidden;
         width: 320px;
-        background-size: cover;
+        background-position: top center;
     }
 
     .about .first_blank {

@@ -21,26 +21,65 @@ Vue.config.productionTip = false;
 
 
 const routes = {
-  '/': About,
-  '/sujet/gerardway': D3MergeCircle
+  'about': About,
+  'sujet': D3MergeCircle
 };
 
 new Vue({
   el: "#app",
   data: {
+    prefix: null,
     currentRoute: window.location.pathname
   },
   computed: {
     ViewComponent () {
-
       log('current route ==> ' + this.currentRoute);
-
-      return routes[this.currentRoute] || NotFound
+      if (this.currentRoute === '/') {
+        return routes['about'] || NotFound;
+      } else {
+        this.prefix = this.currentRoute.substring(0, 6);
+        return routes['sujet'] || NotFound;
+      }
     }
   },
-  render (h) { return h(this.ViewComponent) }  
+  render (createElement) { 
+    log('NAME ===> ' + this.ViewComponent.name);
+    if (this.ViewComponent.name === About.name) {
+      return createElement(this.ViewComponent);
+    } else if (this.ViewComponent === D3MergeCircle.name) {
+    } else {
+      return createElement(NotFound);
+    }
+  }  
 });
 
+function render(data, createElement) {
+  log('render');
+    
+  if (window.location.pathname !== '/') {
+
+  } else {
+    
+  }
+
+  let urlJson = data.API_HOST + '/data?id=gerardway';
+  log('urlJson => ' + urlJson );
+
+  return createElement(App, {
+    props: { id: 'gerardway', titre: 'Gerard Way', urlJson: urlJson}
+  }); 
+}
+
+function createElementMergeCircle(createElement) {
+  const get = Promise.promisify(request.get);
+  
+  get('/config').then( (data) => {
+    return render(JSON.parse(data.body), createElement);
+  }).catch( (err) => {
+    log('err: ' + err);
+  });
+    
+}
 
 /*
 
