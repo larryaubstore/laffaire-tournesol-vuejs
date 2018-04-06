@@ -98,11 +98,7 @@
 
         let middleSpacerHeight = getMiddleSpacerHeight();
         let topTwoElementHeight = middleSpacerHeight + textHeight;
-        let topThreeElement = middleSpacerHeight + textHeight + getAbrahamHeight();
-
-
-        //log(scrollY);
-        
+        let topThreeElement = middleSpacerHeight + textHeight + getAbrahamHeight();        
 
         if (isLayout === false) {
             if(positionAbraham <= topTwoElementHeight) {
@@ -118,7 +114,6 @@
 
             } else { 
                 if (positionMiddleSpacer > textHeight) {
-                    //removeClass(getMiddleSpacerElement(), "fixed");
 
                 } else {
 
@@ -144,12 +139,18 @@
 
 
                 if (positionAbraham > topTwoElementHeight) {
-                    //removeClass(getAbrahamElement(), "fixed");
+
                 } else {
                     addClass(getAbrahamElement(), "fixed");
                 }
             }
         }
+
+
+        applyFixed(getTextElement());
+        applyFixed(getMiddleSpacerElement());
+        applyFixed(getAbrahamElement());
+
         
 
 
@@ -212,27 +213,56 @@
         }        
     }
 
+    function isFixed(element) {
+        if (element.className.indexOf('fixed') > -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function applyFixed(element) {
+
+        let windowWidth = getWindowWidth();
+
+        if (isFixed(element)) {
+            element.style.marginLeft = (-1 * parseInt(windowWidth  / 2)) + 'px';
+            element.style.left = "50%";
+
+        } else {
+            element.style.marginLeft = "";
+            element.style.left = "";
+        }
+    }
+
+    function getWindowWidth() {
+        var windowWidth = window.innerWidth;
+
+        if (windowWidth > 960) {
+            windowWidth = 960;
+        } 
+        return windowWidth;
+    }
+
 
     function resize(event) {
 
-
-
-        let windowWidth = window.innerWidth ;
+        var windowWidth = getWindowWidth();
 
         if (window.innerWidth <= 640) {
             document.body.style.overflow = "scroll";
-            // Problème bizarre sur Pixel 2
-            document.body.style.backgroundSize = windowWidth + 100 + 'px';    
         } else {
             document.body.style.overflow = "scroll";
         }
 
 
-        if (windowWidth > 960) {
-            windowWidth = 960;
-        }
 
         getTextElement().style.width = windowWidth + 'px' ;
+
+
+
+
+
         getMiddleSpacerElement().style.width = windowWidth + 'px';
         document.getElementsByClassName('subject')[0].style.width = parseInt(windowWidth * 0.65) + 'px';
 
@@ -254,6 +284,10 @@
 
         getAbrahamElement().style.width = windowWidth + 'px';
 
+        applyFixed(getTextElement());
+        applyFixed(getMiddleSpacerElement());
+        applyFixed(getAbrahamElement());
+
         
     }
 
@@ -265,13 +299,8 @@
 
 
             window.addEventListener('scroll', onScroll);
-
-            let textElement = document.getElementsByClassName('text')[0];
-            textElement.addEventListener('click', () => {
-                toggle(getMiddleSpacerElement(), 'fixed');
-            });
-
             window.addEventListener('resize', resize);
+            window.addEventListener('orientationchange', resize);
 
             resize();
 
@@ -405,7 +434,8 @@
         width: 330px;
         height: 414px;
         float: left;  
-        background-size: cover;
+        background-size: contain;
+        background-repeat: no-repeat;
     }
 
     .about .abraham .subject {
@@ -571,7 +601,8 @@
         width: 165px;
         height: 207px;
         float: left;  
-        background-size: cover;
+        background-size: contain;
+        background-repeat: no-repeat;
     }
 
     .about .abraham .subject {
@@ -740,7 +771,8 @@
         width: 165px;
         height: 207px;
         float: left;  
-        background-size: cover;
+        background-size: contain;
+        background-repeat: no-repeat;
     }
 
     .about .abraham .subject {
@@ -907,7 +939,8 @@
         width: 100px;
         height: 140px;
         float: left;  
-        background-size: cover;
+        background-size: contain;
+        background-repeat: no-repeat;
     }
 
     .about .abraham .subject {
