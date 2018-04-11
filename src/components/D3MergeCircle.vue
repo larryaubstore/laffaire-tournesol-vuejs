@@ -17,6 +17,10 @@
 
 import D3CirclePacking  from './D3CirclePacking.vue';
 import D3BubbleChart    from './D3BubbleChart.vue';
+import * as debug from 'debug';
+
+const log = debug('d3MergeCircle');
+
 
 
 export default {
@@ -29,7 +33,11 @@ export default {
       titre: String,
       urlJson: String,
       id: String
+  },
+  mounted: function () {
+    log('mounted');
   }
+
 }
 </script>
 

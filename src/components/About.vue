@@ -10,60 +10,62 @@
         <div class="offset" />
 
         <div class="text fixed">
+            <div id='top1000' class="menu">Top 1000</div>
             <div class="title">Bachibouzouk</div>
             <div class="subtitle">La force des relations</div>
         </div>
 
 
+        <div id="presentation">
 
-        <div class="first_blank"></div>
-
-
-        <div class="middle_spacer">
-            <div class="synopsis">Pouvoir déduire les liens d'un sujet et pouvoir chiffrer leur importance, 
-                telle est la mission de <i>Bachibouzouk</i>. Par exemple, prenons un personnage politique, nous voudrions
-                parcourir l'ensemble de ses connaissances et pouvoir coter chacune d'elle selon son importance dans le cercle des
-                relations de notre sujet. 
-            </div>
-        </div>
+            <div class="first_blank"></div>
 
 
-        <div class="second_blank" style="height: 300px"></div>
-
-
-        <div class="abraham">
-        
-            <div class="image" />
-            <div class="subject">Abraham</div>
-            <div class="subtitle">Le sujet</div>
-        
-        </div>
-
-
-        <div class="abraham_offset" style="height: 300px" />
-
-        <div class="links">
-
-            <div class="subject">Ses liens</div>
-            <div class="sublinks">
-                La guerre de sécession <b>(500 points)</b> <br />
-                Esclavage <b>(300 points)</b> <br />
-                Mary Todd <b>(100 points)</b> <br />
+            <div class="middle_spacer">
+                <div class="synopsis">Pouvoir déduire les liens d'un sujet et pouvoir chiffrer leur importance, 
+                    telle est la mission de <i>Bachibouzouk</i>. Par exemple, prenons un personnage politique, nous voudrions
+                    parcourir l'ensemble de ses connaissances et pouvoir coter chacune d'elle selon son importance dans le cercle des
+                    relations de notre sujet. 
+                </div>
             </div>
 
 
+            <div class="second_blank" style="height: 300px"></div>
+
+
+            <div class="abraham">
+            
+                <div class="image" />
+                <div class="subject">Abraham</div>
+                <div class="subtitle">Le sujet</div>
+            
+            </div>
+
+
+            <div class="abraham_offset" style="height: 300px" />
+
+            <div class="links">
+
+                <div class="subject">Ses liens</div>
+                <div class="sublinks">
+                    La guerre de sécession <b>(500 points)</b> <br />
+                    Esclavage <b>(300 points)</b> <br />
+                    Mary Todd <b>(100 points)</b> <br />
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="techno_offset" />
+
+            <div class="hadoop"> </div>
+
+
+            <div class="giraph"> </div>
         </div>
-
-
-
-
-        <div class="techno_offset" />
-
-        <div class="hadoop"> </div>
-
-
-        <div class="giraph"> </div>
-
 
        
 
@@ -92,9 +94,21 @@
 
     export default {
         name: 'About',
+          props: {
+            hideBackground: Boolean,
+        },
         mounted: function () {
             log('mounted');
             document.body.style.overflow = "scroll";
+
+            if (this.hideBackground === "true") {
+                document.body.style.backgroundImage = "none";
+                document.getElementById('presentation').style.display = "none";
+            }
+            // 
+            document.getElementById('top1000').addEventListener('click', () => {
+                window.location = '/top1000';
+            });
         }
     }
 </script>
@@ -117,23 +131,43 @@
     }
 
 
+    .about .text .menu {
+
+        position: absolute;
+        left: 15px;
+        background-color: #60dcaf;
+        padding: 8px;
+        margin-top: 7px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .about .text .menu:hover {
+        background-color: #3b9a78;
+    }
+
+
     .about .text.fixed {
-        height: 125px;
+        height: 90px;
         background-color: #c7f9cc;
         position: fixed;
         top: 0px;
         width: 100%;
+        overflow:hidden;
     }
 
     .about .text .title {
         font-size:40px;
         font-weight: bold;
+        height: 50px;
     }
 
     .about .text .subtitle {
         margin: 0 auto;
         text-align: center;
         font-size: 30px;
+        background-color: lightgray;
+        height: 40px;
     }
 
     .about .middle_spacer {
@@ -155,7 +189,6 @@
     .about .title {
         margin: 0 auto;
         text-align: center;
-        padding-top: 10px;
     }
 
     .about .inner {
@@ -256,15 +289,6 @@
 
 
 
-        .about .text.fixed {
-            height: 125px;
-            width: 960px;
-            background-color: #c7f9cc;
-            margin: 0 auto;
-            position: fixed;
-            left: 50%;
-            margin-left: -480px;
-        }
 
         .about .middle_spacer {
             width: 960px;
