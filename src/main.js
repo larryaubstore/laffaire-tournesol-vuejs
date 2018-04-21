@@ -33,9 +33,13 @@ class Main {
 
   render(createElement, component) {
     log('render ==> ' + component.name);
-    let urlJson = this.config.API_HOST + '/data?id=gerardway';
+
+    let sujet = window.location.pathname.split('\/');
+
+
+    let urlJson = this.config.API_HOST + '/data?id=' + sujet[2];
     return createElement(component, {
-      props: { id: 'gerardway', titre: 'Gerard Way', urlJson: urlJson}
+      props: { id: sujet[2], titre: sujet[2], urlJson: urlJson}
     }); 
   }
 

@@ -125,6 +125,10 @@
         background-position: top center;
     }
 
+    .about {
+        z-index: 1;
+    }
+
 
     .about .first_blank {
         height: 300px;

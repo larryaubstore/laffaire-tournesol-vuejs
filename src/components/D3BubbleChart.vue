@@ -86,6 +86,9 @@
             })
             .on("mouseout", function (d) {
                 d3.select(this).style("fill", color(d.package));
+            })
+            .on("click", function(d) {
+                window.location = "/sujet/"  + d.class;
             });
 
         node.append("clipPath")
@@ -156,6 +159,6 @@
     }
 
     .d3BubbleChart #svgContainerSimpleCircle {
-        z-index: 5;
+        z-index: 0;
     }
 </style>
