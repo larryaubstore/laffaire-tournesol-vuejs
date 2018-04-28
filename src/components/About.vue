@@ -95,7 +95,7 @@
     export default {
         name: 'About',
           props: {
-            hideBackground: Boolean,
+            hideBackground: String,
         },
         mounted: function () {
             log('mounted');

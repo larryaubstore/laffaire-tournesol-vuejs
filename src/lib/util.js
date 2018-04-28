@@ -5,21 +5,27 @@ import * as d3              from 'd3';
 
 
 const log = debug('util');
+log('util --');
 
 export class Util {
+
     constructor() {
         log('util');
     }
 
     flat(data) {
         log('flat');
-        var list = [];
-        _.each(data, function(item){
-            list.push(_.omit(item, 'children'));
-            list.push(_.flatten(_.pick(item, 'children')));
-        });
-        var result = _.flatten(list);
-        return result;
+        
+
+        if (data.children && data.children.length > 0) {
+            let emptyList = [];
+            data.children.forEach( (child) => {
+                emptyList = emptyList.concat(this.flat(child));
+            });
+            return emptyList;
+        } else {
+            return data;
+        }
     }
 
     loadJson(urlJson) {
@@ -36,6 +42,9 @@ export class Util {
             });
         });
     }
+
+
+
 }
 
 

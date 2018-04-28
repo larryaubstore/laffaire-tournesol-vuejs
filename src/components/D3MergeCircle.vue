@@ -3,8 +3,8 @@
   <div id="d3MergeCircle">
     <!-- <D3CirclePacking :titre= "titre" :urlJson = "urlJson" :id="id" /> -->
 
-    <D3BubbleChart :urlJson = "urlJson" />
-    <About hideBackground="true" />
+    <D3BubbleChart :urlJson = "urlJson" :disableClick =  "true" />
+    <!-- <About hideBackground="true" /> -->
   </div>
 
 

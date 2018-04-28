@@ -13,7 +13,7 @@
 
     import * as d3          from "d3";
     import * as debug       from 'debug';
-    import { Util }         from '../lib/util';
+    import { Util }        from '../lib/util';
 
 
 

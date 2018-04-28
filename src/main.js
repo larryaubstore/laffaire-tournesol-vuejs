@@ -77,9 +77,7 @@ class Main {
         } else if (this.ViewComponent.name === D3MergeCircle.name) { // Sujet
           return instance.createElementMergeCircle(createElement, this.ViewComponent);
         } else if( this.ViewComponent.name === D3BubbleChart.name) { // top100
-          return createElement(this.ViewComponent, {
-            props: { data: JSON.parse(json.body) }
-          });
+          return createElement(this.ViewComponent, { props: { data: JSON.parse(json.body), disableClick: false } });
         } else {
           return createElement(NotFound);
         }

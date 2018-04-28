@@ -21,7 +21,7 @@
     import * as debug       from 'debug';
     import * as _           from 'lodash';
 
-    import { Util }         from '../lib/util';
+    import { Util }        from '../lib/util';
     var util = new Util();
     
 
@@ -40,11 +40,34 @@
 
         if (timers) clearTimeout(timers);
 
+        var scope = this;
+
 
         timers = setTimeout( () => {
             document.getElementById("svgContainerSimpleCircle").innerHTML = "";
-            charge(this.data);
+            preCharge.bind(scope)();
         }, 1000);
+
+    }
+
+    function preCharge() {
+        if (typeof(this.urlJson) !== "undefined") {
+            util.loadJson(this.urlJson).then( (data) => {
+                return util.flat(data);
+            }).then( (data) => {
+
+                let dataMapped =  data.map( (item) => {
+                    return {    id: "padding." + item.name, 
+                                value: item.size,
+                                title: item.title
+                            };
+                });
+
+                charge.bind(this)(dataMapped);
+            });
+        } else {
+            charge.bind(this)(this.data);
+        }
 
     }
 
@@ -53,27 +76,56 @@
         log('--');
         log(JSON.stringify(classes));
 
-        var svg = d3.select("#svgContainerSimpleCircle"),
-            width = +svg.attr("width"),
-            height = +svg.attr("height");
+        var windowWidth     = window.innerWidth;
+        var windowHeight    = window.innerHeight - 100;
+
+
+
+
+        var svg = d3.select("#svgContainerSimpleCircle");
+        svg.attr("width", parseInt(windowWidth));
+        svg.attr("height", parseInt(windowHeight));
+
+
+        var width = +svg.attr("width");
+        var height = +svg.attr("height");
+
+        var container = d3.select(".svgContainerSimpleCircle");
+        container.style("width", width + "px");
+            
 
         var format = d3.format(",d");
 
         var color = d3.scaleOrdinal(d3.schemeCategory20c);
 
+
         var pack = d3.pack()
             .size([width, height])
             .padding(1.5);
 
+        var scope = this;
+
+        log('===============> ' + scope.disableClick);
+
+
+        
 
         var root = d3.hierarchy({children: classes})
             .sum(function(d) { return d.value; })
-            .each(function(d) {
+            .each( (d) => {
                 if (id = d.data.id) {
-                var id, i = id.lastIndexOf(".");
-                d.id = id;
-                d.package = id.slice(0, i);
-                d.class = id.slice(i + 1);
+                    var id, i = id.lastIndexOf(".");
+                    d.id = id;
+                    d.package = id.slice(0, i);
+                    d.class = id.slice(i + 1);
+                    d.title = d.data.title;
+
+                    
+                    if (scope.disableClick == true) {
+                        d.disableClick = true;
+                    } else {
+                        d.disableClick = false;
+                    }
                 }
             });
 
@@ -89,13 +141,19 @@
             .attr("cursor", "pointer")
             .style("fill", function(d) { return color(d.package); })
             .on("mouseover", function (d) {
-                d3.select(this).style("fill", "#60dcaf");
+                if (d.disableClick == false) {
+                    d3.select(this).style("fill", "#60dcaf");
+                }
             })
             .on("mouseout", function (d) {
-                d3.select(this).style("fill", color(d.package));
+                if (d.disableClick == false) {
+                    d3.select(this).style("fill", color(d.package));
+                }
             })
             .on("click", function(d) {
-                window.location = "/sujet/"  + d.class;
+                if (d.disableClick == false) {
+                    window.location = "/sujet/"  + d.class;
+                }
             });
 
         node.append("clipPath")
@@ -106,14 +164,40 @@
         node.append("text")
             .attr("clip-path", function(d) { return "url(#clip-" + d.id + ")"; })
             .selectAll("tspan")
-            .data(function(d) { return d.class.split(/(?=[A-Z][^A-Z])/g); })
+            .data(function(d) {
+
+                if (d.title)  {
+                    let displayName = d.title;
+                    displayName = displayName.replace('%C3%B3', 'ó');
+                    displayName = displayName.replace('%C3%AD', 'í');
+                    displayName = displayName.replace('%C3%A9', 'é');
+                    displayName = displayName.replace('%C3%A1', 'á');
+                    return displayName.split(/(?=[A-Z][^A-Z])/g); ;
+
+                } else {
+                    return d.class.split(/(?=[A-Z][^A-Z])/g); 
+                }
+                
+            })
             .enter().append("tspan")
             .attr("x", 0)
             .attr("y", function(d, i, nodes) { return 13 + (i - nodes.length / 2 - 0.5) * 10; })
             .text(function(d) { return d; });
 
         node.append("title")
-            .text(function(d) { return d.id + "\n" + format(d.value); });
+            .text(function(d) {
+
+                if (d.title) {
+                    let displayName = d.title;
+                    displayName = displayName.replace('%C3%B3', 'ó');
+                    displayName = displayName.replace('%C3%AD', 'í');
+                    displayName = displayName.replace('%C3%A9', 'é');
+                    displayName = displayName.replace('%C3%A1', 'á');
+                    return displayName;
+                } else {
+                    return "";
+                }
+            });
     }
 
 
@@ -122,36 +206,26 @@
         name: 'D3BubbleChart',
         props: {
             score: String,
-            data: Object,
-            urlJson: String
+            data: Array,
+            urlJson: String,
+            disableClick: Boolean
         },
         components: {
             About
         },
         mounted: function () {
-
             log('mounted');
 
-            if (typeof(this.urlJson) !== "undefined") {
 
-                util.loadJson(this.urlJson).then( (data) => {
-                    util.flat(data);
-                });
-            } else {
-                charge(this.data);
-            }
+            log('++++++++++++++> ' + this.disableClick);
 
-            
+
+            preCharge.bind(this)();
 
             window.removeEventListener("resize", tick.bind(this));
             window.addEventListener("resize", tick.bind(this));
-
-
-
-
         }
     }
-
 
 
 
@@ -177,5 +251,10 @@
 
     .d3BubbleChart #svgContainerSimpleCircle {
         z-index: 0;
+    }
+
+
+    .svgContainerSimpleCircle  {
+        margin: 0 auto;
     }
 </style>
