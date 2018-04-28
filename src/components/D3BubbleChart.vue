@@ -17,9 +17,15 @@
 <script>
 
 
-    import * as d3 from "d3";
-    import * as debug from 'debug';
-    import About  from './About.vue';
+    import * as d3          from "d3";
+    import * as debug       from 'debug';
+    import * as _           from 'lodash';
+
+    import { Util }         from '../lib/util';
+    var util = new Util();
+    
+
+    import About            from './About.vue';
 
 
     const log = debug('D3BubbleChart');
@@ -27,6 +33,7 @@
    
 
     var timers = null;
+
 
 
     function tick() {
@@ -115,7 +122,8 @@
         name: 'D3BubbleChart',
         props: {
             score: String,
-            data: Object
+            data: Object,
+            urlJson: String
         },
         components: {
             About
@@ -124,7 +132,16 @@
 
             log('mounted');
 
-            charge(this.data);
+            if (typeof(this.urlJson) !== "undefined") {
+
+                util.loadJson(this.urlJson).then( (data) => {
+                    util.flat(data);
+                });
+            } else {
+                charge(this.data);
+            }
+
+            
 
             window.removeEventListener("resize", tick.bind(this));
             window.addEventListener("resize", tick.bind(this));

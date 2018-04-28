@@ -1,7 +1,9 @@
 <template>
  
   <div id="d3MergeCircle">
-    <D3CirclePacking :titre= "titre" :urlJson = "urlJson" :id="id" />
+    <!-- <D3CirclePacking :titre= "titre" :urlJson = "urlJson" :id="id" /> -->
+
+    <D3BubbleChart :urlJson = "urlJson" />
     <About hideBackground="true" />
   </div>
 
@@ -15,6 +17,7 @@
 <script>
 
 import D3CirclePacking  from './D3CirclePacking.vue';
+import D3BubbleChart    from './D3BubbleChart.vue';
 import About            from './About.vue';
 import * as debug from 'debug';
 
@@ -26,6 +29,7 @@ export default {
   name: 'd3MergeCircle',
   components: {
     D3CirclePacking,
+    D3BubbleChart,
     About
   },
   props: {
@@ -36,7 +40,6 @@ export default {
   mounted: function () {
     log('mounted');
   }
-
 }
 </script>
 

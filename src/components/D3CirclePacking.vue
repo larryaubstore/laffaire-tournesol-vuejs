@@ -11,11 +11,16 @@
 
 <script>
 
-    import * as d3 from "d3";
-    import * as debug from 'debug';
+    import * as d3          from "d3";
+    import * as debug       from 'debug';
+    import { Util }         from '../lib/util';
+
+
 
     
     const log = debug('d3CirclePacking');
+    var util = new Util();
+    
     var timers = null;
 
 
@@ -31,22 +36,6 @@
         }, 1000);
 
     }
-
-    function loadJson(urlJson) {
-        log('loadJson');
-
-        return new Promise( (resolve, reject) => {
-            d3.json(urlJson, function(error, root) {
-                if (error) {
-                    log(error);
-                    reject(error);
-                } else {
-                    resolve(root);
-                }
-            });
-        });
-    }
-
 
     function group(root) {
         if (root.children && root.children.length > 10) {
@@ -98,7 +87,7 @@
         log('charge');
 
 
-        loadJson(urlJson).then( (root) => {
+        util.loadJson(urlJson).then( (root) => {
             return reduceChildren(root);
         }).then( (root) => {
             renderDetails(root);
