@@ -138,7 +138,13 @@
         node.append("circle")
             .attr("id", function(d) { return d.id; })
             .attr("r", function(d) { return d.r; })
-            .attr("cursor", "pointer")
+            .attr("cursor", function(d) {
+                if (d.disableClick == true) {
+                    return "default";
+                } else {
+                    return "pointer";
+                }
+            })
             .style("fill", function(d) { return color(d.package); })
             .on("mouseover", function (d) {
                 if (d.disableClick == false) {
