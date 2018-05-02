@@ -76,8 +76,8 @@
         log('--');
         log(JSON.stringify(classes));
 
-        var windowWidth     = window.innerWidth;
-        var windowHeight    = window.innerHeight - 100;
+        var windowWidth     = window.innerWidth - 50;
+        var windowHeight    = window.innerHeight - 130;
 
 
 
@@ -246,7 +246,7 @@
 
     .d3BubbleChart .svgContainerSimpleCircle {
         width: 100%;
-        padding-top: 90px;
+        padding-top: 100px;
     }
 
     .d3BubbleChart #svgContainerSimpleCircle {
